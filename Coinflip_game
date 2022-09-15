@@ -1,0 +1,54 @@
+pragma solidity ^0.5.0; 
+   
+
+contract Types { 
+
+      struct Player {
+        string hasplayed;
+        address my_address;
+        uint wager;
+      }
+
+      Player[] public players; 
+
+      uint[] data;
+      uint[] public randcar;
+
+      uint randNonce = 0;
+
+      function initialize(uint wager) public {
+        players.push(Player("no", msg.sender, wager));  
+      } 
+
+      function length() public returns(uint) {
+          uint len = players.length;
+          return len;
+
+      }
+   
+      function loop(
+      ) public returns(uint[] memory){
+    
+      uint len = players.length;
+
+      for(uint i=0; i<len-1; i++){
+          Player storage myplayer = players[i];
+          Player storage newestplayer = players[len-1];
+          if (myplayer.wager == newestplayer.wager) {
+              flip(myplayer.wager, myplayer.my_address, newestplayer.wager, newestplayer.my_address);
+          }
+          // take newest player wager value and compare to pasts, 'if' match, execute function which does roll
+          data.push(myplayer.wager);
+      }
+        return data;
+      }
+
+
+
+      function flip(uint wager1, address address1, uint wager2, address address2) public {
+          randNonce++;
+          uint rand = uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))) % 100;
+          randcar.push(rand);
+      }
+}
+
