@@ -13,6 +13,7 @@ contract Types {
 
       uint[] data;
       uint[] public randcar;
+      string[] public emissions;
 
       uint randNonce = 0;
 
@@ -26,8 +27,7 @@ contract Types {
 
       }
    
-      function loop(
-      ) public returns(uint[] memory){
+      function loop() public returns(uint[] memory, string memory){
     
       uint len = players.length;
 
@@ -36,11 +36,14 @@ contract Types {
           Player storage newestplayer = players[len-1];
           if (myplayer.wager == newestplayer.wager) {
               flip(myplayer.wager, myplayer.my_address, newestplayer.wager, newestplayer.my_address);
+          } else {
+              return (data, "Sorry, no other players with that wager. Wait until another player triggers your wager with an equal wager");
+              // I believe this is outputting too many times (as many times as above statement isn't true, but doesn't activate flip() wich is good, as I didn't get another random number)
           }
-          // take newest player wager value and compare to pasts, 'if' match, execute function which does roll
+          
           data.push(myplayer.wager);
       }
-        return data;
+        //return data;
       }
 
 
@@ -48,6 +51,15 @@ contract Types {
       function flip(uint wager1, address address1, uint wager2, address address2) public {
           randNonce++;
           uint rand = uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))) % 100;
+          if (rand >= 50) {
+
+            // first player wins, transfer ETH to him. Original initialize function should be payable, and the ETH sits in the contract wallet
+
+          } else {
+
+            // second player wins, transfer ETH to him. Original initialize function should be payable, and the ETH sits in the contract wallet 
+
+          }
           randcar.push(rand);
       }
 }
