@@ -50,6 +50,7 @@ contract Types {
 
       function flip(uint wager1, address address1, uint wager2, address address2) public {
           randNonce++;
+          // Use better (oracle) random number generation scheme here
           uint rand = uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))) % 100;
           if (rand >= 50) {
 
