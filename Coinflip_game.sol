@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0; 
+ppragma solidity ^0.8.0; 
    
 
 contract Types { 
@@ -17,22 +17,33 @@ contract Types {
 
       uint randNonce = 0;
 
-      function initialize(uint wager) public {
+      function initialize() public payable {
+        require(msg.value > 0);
+        uint wager = msg.value;
         players.push(Player("no", msg.sender, wager));  
+        // Wager value/payable value involves situation where Wei value is minute decimal of Ethereum etc... check code I did for Nodestack
       } 
+
+      function getBalance () external view returns(uint) {
+        return address(this).balance;
+
+      }
    
       function loop() public returns(uint[] memory, string memory){
     
       uint len = players.length;
 
       for(uint i=0; i<len-1; i++){
+          //need to input "hasplayed" aspect as well
           Player storage myplayer = players[i];
           Player storage newestplayer = players[len-1];
           if (myplayer.wager == newestplayer.wager) {
               flip(myplayer.wager, myplayer.my_address, newestplayer.wager, newestplayer.my_address);
           } else {
               return (data, "Sorry, no other players with that wager. Wait until another player triggers your wager with an equal wager");
-              // I believe this is outputting too many times (as many times as above statement isn't true, but doesn't activate flip() wich is good, as I didn't get another random number)
+              // I believe this is outputting too many times (as many times as above statement isn't true, but doesn't activate flip() wich is good, as I didn't get another random number
+              // try triggering an integer here, which will then trigger a message when the function continues (that won't
+              // then be triggered if flip() is triggered
           }
           
           data.push(myplayer.wager);
@@ -45,17 +56,16 @@ contract Types {
       function flip(uint wager1, address address1, uint wager2, address address2) public {
           randNonce++;
           // Use better (oracle) random number generation scheme here
-          uint rand = uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))) % 100;
+          uint rand = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, randNonce))) % 100;
           if (rand >= 50) {
-
-            // first player wins, transfer ETH to him. Original initialize function should be payable, and the ETH sits in the contract wallet
-
+            // figure out what value to multiply by to account for gas and money for company
+            payable(address1).transfer(wager1 * 3 / 2);
           } else {
-
-            // second player wins, transfer ETH to him. Original initialize function should be payable, and the ETH sits in the contract wallet 
-
+            payable(address2).transfer(wager2 * 3 / 2);
           }
           randcar.push(rand);
       }
+
+      //fallback function needs to be placed
 }
 
