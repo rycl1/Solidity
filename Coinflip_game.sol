@@ -20,12 +20,6 @@ contract Types {
       function initialize(uint wager) public {
         players.push(Player("no", msg.sender, wager));  
       } 
-
-      function length() public returns(uint) {
-          uint len = players.length;
-          return len;
-
-      }
    
       function loop() public returns(uint[] memory, string memory){
     
