@@ -33,22 +33,31 @@ contract Types {
     
       uint len = players.length;
 
+      uint vin = 0;
+      uint vin2 = 0;
+
       for(uint i=0; i<len-1; i++){
-          //need to input "hasplayed" aspect as well
+          //need to input "has played" aspect as well
           Player storage myplayer = players[i];
           Player storage newestplayer = players[len-1];
           if (myplayer.wager == newestplayer.wager) {
               flip(myplayer.wager, myplayer.my_address, newestplayer.wager, newestplayer.my_address);
+              vin2 = 1;
           } else {
-              return (data, "Sorry, no other players with that wager. Wait until another player triggers your wager with an equal wager");
-              // I believe this is outputting too many times (as many times as above statement isn't true, but doesn't activate flip() wich is good, as I didn't get another random number
-              // try triggering an integer here, which will then trigger a message when the function continues (that won't
-              // then be triggered if flip() is triggered
+              vin = 1;
           }
           
           data.push(myplayer.wager);
       }
+
+      if (vin == 1 && vin2 == 0) {
+          return (data, "Sorry, no other players with that wager. Wait until another player triggers your wager with an equal wager, and the flip will automatically commence. Check your wallet later to see if you've won or lost!");
+              // I believe this is outputting too many times (as many times as above statement isn't true, but doesn't activate flip() wich is good, as I didn't get another random number
+              // try triggering an integer here, which will then trigger a message when the function continues (that won't
+              // then be triggered if flip() is triggered
+
         //return data;
+      }
       }
 
 
