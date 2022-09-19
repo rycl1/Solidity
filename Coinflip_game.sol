@@ -76,5 +76,7 @@ contract Types {
       }
 
       //fallback function needs to be placed
+      //Other backup functions
 }
 
+// need to audit for security and gas efficiency
