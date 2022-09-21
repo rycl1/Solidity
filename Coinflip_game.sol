@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 contract Types { 
 
       struct Player {
-        string hasplayed;
+        uint hasplayed;
         address my_address;
         uint wager;
       }
@@ -20,7 +20,7 @@ contract Types {
       function initialize() public payable {
         require(msg.value > 0);
         uint wager = msg.value;
-        players.push(Player("no", msg.sender, wager));  
+        players.push(Player(0, msg.sender, wager));  
         // Wager value/payable value involves situation where Wei value is minute decimal of Ethereum etc... check code I did for Nodestack
       } 
 
@@ -40,8 +40,8 @@ contract Types {
           //need to input "has played" aspect as well
           Player storage myplayer = players[i];
           Player storage newestplayer = players[len-1];
-          if (myplayer.wager == newestplayer.wager) { // && newesplayer.hasplayed = "no"
-              flip(myplayer.wager, myplayer.my_address, newestplayer.wager, newestplayer.my_address);
+          if (myplayer.wager == newestplayer.wager && myplayer.hasplayed == 0) { // && newesplayer.hasplayed = "no"
+              flip(myplayer.wager, myplayer.my_address, newestplayer.wager, newestplayer.my_address, len-1, i);
               vin2 = 1;
           } else {
               vin = 1;
@@ -62,7 +62,7 @@ contract Types {
 
 
 
-      function flip(uint wager1, address address1, uint wager2, address address2) public {
+      function flip(uint wager1, address address1, uint wager2, address address2, uint len, uint i) public {
           randNonce++;
           // Use better (oracle) random number generation scheme here
           uint rand = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, randNonce))) % 100;
@@ -72,11 +72,14 @@ contract Types {
           } else {
             payable(address2).transfer(wager2 * 3 / 2);
           }
+          Player storage myplayer = players[i];
+          myplayer.hasplayed = 1;
+          Player storage newestplayer = players[len];
+          newestplayer.hasplayed = 1;
           // Here add the "has played" onto each player
           randcar.push(rand);
       }
 
-      //Fallback function needs to be placed
-      //Other backup functions
+      //fallback function needs to be placed
 }
 
