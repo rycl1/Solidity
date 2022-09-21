@@ -53,11 +53,7 @@ contract Types {
       if (vin == 1 && vin2 == 0) {
           // emit this on front-end
           return (data, "Sorry, no other players with that wager. Wait until another player triggers your wager with an equal wager, and the flip will automatically commence. Check your wallet later to see if you've won or lost!");
-              // I believe this is outputting too many times (as many times as above statement isn't true, but doesn't activate flip() wich is good, as I didn't get another random number
-              // try triggering an integer here, which will then trigger a message when the function continues (that won't
-              // then be triggered if flip() is triggered
-
-        //return data;
+          //return data;
       }
       }
 
