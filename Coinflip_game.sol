@@ -40,7 +40,7 @@ contract Types {
           //need to input "has played" aspect as well
           Player storage myplayer = players[i];
           Player storage newestplayer = players[len-1];
-          if (myplayer.wager == newestplayer.wager) {
+          if (myplayer.wager == newestplayer.wager) { // && newesplayer.hasplayed = "no"
               flip(myplayer.wager, myplayer.my_address, newestplayer.wager, newestplayer.my_address);
               vin2 = 1;
           } else {
@@ -72,11 +72,11 @@ contract Types {
           } else {
             payable(address2).transfer(wager2 * 3 / 2);
           }
+          // Here add the "has played" onto each player
           randcar.push(rand);
       }
 
-      //fallback function needs to be placed
+      //Fallback function needs to be placed
       //Other backup functions
 }
 
-// need to audit for security and gas efficiency
