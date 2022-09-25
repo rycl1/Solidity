@@ -66,9 +66,9 @@ contract Types {
           uint rand = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, randNonce))) % 100;
           if (rand >= 50) {
             // figure out what value to multiply by to account for gas and money for company
-            payable(address1).transfer(wager1 * 3 / 2);
+            payable(address1).transfer(wager1 * 3 / 2); // could possibly implement safemath here
           } else {
-            payable(address2).transfer(wager2 * 3 / 2);
+            payable(address2).transfer(wager2 * 3 / 2); // safemath
           }
           Player storage myplayer = players[i];
           myplayer.hasplayed = 1;
