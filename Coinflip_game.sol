@@ -62,7 +62,7 @@ contract Types {
 
       function flip(uint wager1, address address1, uint wager2, address address2, uint len, uint i) public {
           randNonce++;
-          // Use better (oracle) random number generation scheme here
+          // Use better (oracle) random number generation scheme here: https://docs.chain.link/docs/vrf/v2/subscription/examples/get-a-random-number/
           uint rand = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, randNonce))) % 100;
           if (rand >= 50) {
             // figure out what value to multiply by to account for gas and money for company
