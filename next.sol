@@ -6,52 +6,62 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
-import "@chainlink/contracts/src/v0.8/interfaces/FeedRegistryInterface.sol";
-import "@chainlink/contracts/src/v0.8/Denominations.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
-/**
- * THIS IS AN EXAMPLE CONTRACT THAT USES HARDCODED VALUES FOR CLARITY.
- * THIS IS AN EXAMPLE CONTRACT THAT USES UN-AUDITED CODE.
- * DO NOT USE THIS CODE IN PRODUCTION.
- */
+contract PriceConsumerV3 {
 
-contract PriceConsumer {
-    FeedRegistryInterface internal registry;
+    struct user {
+        address user_address;
+        uint amount;
+        uint connect_val;
+        // If we use this connect_val to connect, we have to make sure there's no latency between two
+        // initializers, so that nobody jumps in between. Just have it initialize at the same time if possible?
+      }
 
-    /**
-     * Network: Ethereum Mainnet
-     * Feed Registry: 0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf
-     */
-    constructor(address _registry) {
-        registry = FeedRegistryInterface(_registry);
-    }
+    AggregatorV3Interface internal priceFeed;
 
     /**
-     * Returns the ETH / USD price
+     * Network: Goerli
+     * Aggregator: ETH/USD
+     * Address: 0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
      */
-    function getEthUsdPrice() public view returns (int) {
-        (
-            uint80 roundID,
-            int price,
-            uint startedAt,
-            uint timeStamp,
-            uint80 answeredInRound
-        ) = registry.latestRoundData(Denominations.ETH, Denominations.USD);
-        return price;
+    constructor() {
+        priceFeed = AggregatorV3Interface(0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e);
     }
 
     /**
      * Returns the latest price
      */
-    function getPrice(address base, address quote) public view returns (int) {
+    function getLatestPrice() public view returns (int) {
         (
-            uint80 roundID,
+            /*uint80 roundID*/,
             int price,
-            uint startedAt,
-            uint timeStamp,
-            uint80 answeredInRound
-        ) = registry.latestRoundData(base, quote);
+            /*uint startedAt*/,
+            /*uint timeStamp*/,
+            /*uint80 answeredInRound*/
+        ) = priceFeed.latestRoundData();
         return price;
     }
-}
 
+    function test() public view returns (string memory) {
+        string memory p1 = "P1";
+        string memory p2 = "P2";
+
+        (
+            /*uint80 roundID*/,
+            int price,
+            /*uint startedAt*/,
+            /*uint timeStamp*/,
+            /*uint80 answeredInRound*/
+        ) = priceFeed.latestRoundData();
+
+        if (price > 133466002243) {
+            return p1;
+        } else {
+            return p2;
+        }
+
+
+
+    }
+}
