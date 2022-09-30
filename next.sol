@@ -16,6 +16,7 @@ contract PriceConsumerV3 {
         uint connect_val;
         // If we use this connect_val to connect, we have to make sure there's no latency between two
         // initializers, so that nobody jumps in between. Just have it initialize at the same time if possible?
+        // Going to need a mapping to look ppl up by their struct (maybe)
       }
 
     AggregatorV3Interface internal priceFeed;
