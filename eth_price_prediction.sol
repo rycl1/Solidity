@@ -34,6 +34,7 @@ contract PriceConsumerV3 {
 
     
     constructor(address user2, uint full_value, uint token_value, uint datetime_input) {
+        // maybe require constructor to pay two ETH
         priceFeed = AggregatorV3Interface(0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e);
         user_deployer = msg.sender;
         user_secondary = user2;
@@ -43,12 +44,15 @@ contract PriceConsumerV3 {
     }
 
     function user_secondary_pay () public payable {
-        
-
+        require(msg.value = full_val / 2);
     }
     
     //upkeep function is triggered by Chainlink timekeeper on designated datetime
     function upkeep() public returns (address) {
+        //maybe require upkeep to check that the contract value is the full value, or 
+        //test for it later and revert after 24 hours or something if second user hasn't put the money
+        //in. Have one check 24 hours after deployment for second user funds, if user didn't put them
+        //in the value reverts back to deployer because second user is awol. Second check comes on datetime_input.
         (
             /*uint80 roundID*/,
             int price,
