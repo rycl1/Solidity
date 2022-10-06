@@ -21,7 +21,7 @@ contract PriceConsumerV3 {
 
     AggregatorV3Interface internal priceFeed;
     address public user_deployer;
-    address public user2;
+    address public user_secondary;
     uint public full_val;
     uint public tok_val;
     uint public datetime;
@@ -33,13 +33,18 @@ contract PriceConsumerV3 {
      */
 
     
-    constructor(address user2, uint full_val, uint tok_val, uint datetime) {
+    constructor(address user2, uint full_value, uint token_value, uint datetime_input) {
         priceFeed = AggregatorV3Interface(0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e);
         user_deployer = msg.sender;
-        user2 = user2;
-        full_val = full_val;
-        tok_val = tok_val;
-        datetime = datetime;
+        user_secondary = user2;
+        full_val = full_value;
+        tok_val = token_value;
+        datetime = datetime_input;
+    }
+
+    function user_secondary_pay () public payable {
+        
+
     }
     
     //upkeep function is triggered by Chainlink timekeeper on designated datetime
@@ -58,7 +63,7 @@ contract PriceConsumerV3 {
         if (price > int(tok_val)) {
             return user_deployer;
         } else {
-            return user2;
+            return user_secondary;
         }
 
     }  
