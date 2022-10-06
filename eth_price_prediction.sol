@@ -44,7 +44,7 @@ contract PriceConsumerV3 {
     }
 
     function user_secondary_pay () public payable {
-        require(msg.value = full_val / 2);
+        require(msg.value = 2 ether);
     }
     
     //upkeep function is triggered by Chainlink timekeeper on designated datetime
