@@ -44,7 +44,7 @@ contract Distribute {
     }
 
     function user_secondary_pay () public payable {
-        require(msg.value = 2 ether);
+        require(msg.value = 2 ether); // Shouldn't need to be hardcoded
     }
     
     //upkeep function is triggered by Chainlink timekeeper on designated datetime
