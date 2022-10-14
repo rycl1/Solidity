@@ -34,7 +34,7 @@ contract Distribute {
 
     
     constructor(address user2, uint full_value, uint token_value, uint datetime_input) {
-        // maybe require constructor to pay two ETH
+        // maybe require constructor to pay two ETH ALSO shouldn't need to be hardcoded (in question on Stack)
         priceFeed = AggregatorV3Interface(0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e);
         user_deployer = msg.sender;
         user_secondary = user2;
