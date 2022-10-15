@@ -38,8 +38,6 @@ contract Distribute {
 
     
     constructor(address user2, uint full_value, uint token_value, uint datetime_input) {
-        uint current_contract_val = getBalance();
-        require(current_contract_val == 4 ether);
         priceFeed = AggregatorV3Interface(0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e);
         user_deployer = msg.sender;
         user_secondary = user2;
@@ -54,6 +52,8 @@ contract Distribute {
     
     //upkeep function is triggered by Chainlink timekeeper on designated datetime
     function upkeep() public returns (address) {
+        uint current_contract_val = getBalance();
+        require(current_contract_val == 4 ether);
         //maybe require upkeep to check that the contract value is the full value, or 
         //test for it later and revert after 24 hours or something if second user hasn't put the money
         //in. Have one check 24 hours after deployment for second user funds, if user didn't put them
