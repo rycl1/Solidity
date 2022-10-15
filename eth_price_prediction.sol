@@ -31,6 +31,10 @@ contract Distribute {
      * Aggregator: ETH/USD
      * Address: 0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
      */
+     
+     function getBalance () external view returns(uint) {
+        return address(this).balance;
+    }
 
     
     constructor(address user2, uint full_value, uint token_value, uint datetime_input) {
