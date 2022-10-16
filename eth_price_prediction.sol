@@ -3,6 +3,8 @@
 // Maybe a contract that uses price datafeed to trigger some kind of action? Like a distribution of funds if some asset reaches a certain price?
 
 
+//Chainlink has both time and logic functionality for CRONJOB
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
