@@ -52,7 +52,7 @@ contract TwoPartyPricePrediction {
         require(msg.value = 2 ether); // Shouldn't need to be hardcoded
     }
     
-    //upkeep function is triggered by Chainlink timekeeper on designated datetime
+    //upkeep function is triggered by Chainlink timekeeper on designated datetime https://docs.chain.link/docs/chainlink-automation/job-scheduler/
     function upkeep() public returns (address) {
         uint current_contract_val = getBalance();
         require(current_contract_val == 4 ether);
