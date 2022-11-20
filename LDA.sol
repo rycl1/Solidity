@@ -1,8 +1,6 @@
 
 pragma solidity ^0.8.0; 
 
-import "./safemath.sol";
-
 contract LDA { 
 
 
